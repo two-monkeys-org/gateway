@@ -17,6 +17,7 @@ public class AuthenticatedSession implements Authentication {
     private Collection<? extends GrantedAuthority> authorities;
     private String email;
     private boolean authenticated = false;
+    private Object principal;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -35,7 +36,7 @@ public class AuthenticatedSession implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return this;
+        return principal;
     }
 
     @Override
@@ -55,6 +56,11 @@ public class AuthenticatedSession implements Authentication {
 
     public AuthenticatedSession withAuthenticated(boolean b) {
         setAuthenticated(b);
+        return this;
+    }
+
+    public AuthenticatedSession withPrincipal(String email) {
+        this.principal = email;
         return this;
     }
 }

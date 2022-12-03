@@ -33,7 +33,7 @@ public class AuthService {
                     exchange.getRequest().getHeaders().get("Authorization")
             ).get(0);
             log.info(authToken);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         return authToken;
@@ -48,7 +48,7 @@ public class AuthService {
     }
 
     private void authenticateWithSession(String authToken) {
-        final ResponseEntity<ValidatedSessionResponse> response =  restTemplate.postForEntity("http://localhost:1234/auth/validate/" + authToken,
+        final ResponseEntity<ValidatedSessionResponse> response =  restTemplate.postForEntity("http://localhost:1234/validate/" + authToken,
                 null,
                 ValidatedSessionResponse.class);
 
@@ -67,11 +67,10 @@ public class AuthService {
         AuthenticatedSession authSession = new AuthenticatedSession()
                 .setEmail(email)
                 .setAuthorities(authorities)
-                .withAuthenticated(true);
+                .withAuthenticated(true)
+                .withPrincipal(email);
 
         SecurityContext sc = SecurityContextHolder.getContext();
         sc.setAuthentication(authSession);
     }
-
-
 }
