@@ -50,6 +50,13 @@ public class SecurityConfig {
                 .and()
                 .authorizeExchange()
                 .pathMatchers("/login", "/validate").permitAll()
+                .pathMatchers("/v3/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/webjars/**").permitAll()
                 .pathMatchers( HttpMethod.POST, "/user-service/user").permitAll()
                 .anyExchange().authenticated()
                 .and()
