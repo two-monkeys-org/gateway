@@ -43,6 +43,8 @@ public class SecurityConfig {
     public SecurityWebFilterChain chain(ServerHttpSecurity http){
         http
                 .csrf().disable()
+                .cors()
+                .and()
                 .formLogin()
                 .authenticationManager(authenticationManager)
                 .authenticationSuccessHandler(new WebFilterChainServerAuthenticationSuccessHandler())
