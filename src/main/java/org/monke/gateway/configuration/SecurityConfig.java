@@ -2,7 +2,6 @@ package org.monke.gateway.configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.monke.gateway.service.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -14,13 +13,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import reactor.core.publisher.Mono;
 
 @Slf4j
 @EnableWebFluxSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final AuthService authService;
     private final AuthenticationManager authenticationManager;
 
     @Bean
@@ -43,7 +44,7 @@ public class SecurityConfig {
     public SecurityWebFilterChain chain(ServerHttpSecurity http){
         http
                 .csrf().disable()
-                .cors()
+                .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .formLogin()
                 .authenticationManager(authenticationManager)
@@ -65,5 +66,14 @@ public class SecurityConfig {
                 .httpBasic();
 
         return http.build();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.applyPermitDefaultValues();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
