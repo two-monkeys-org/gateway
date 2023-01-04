@@ -1,4 +1,4 @@
-package org.monke.gateway.configuration;
+package org.monke.gateway.configuration.security;
 
 import lombok.RequiredArgsConstructor;
 import org.monke.gateway.service.AuthService;

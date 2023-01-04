@@ -1,4 +1,4 @@
-package org.monke.gateway.configuration;
+package org.monke.gateway.configuration.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.server.WebFilterExchange;
